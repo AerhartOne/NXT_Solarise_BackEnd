@@ -42,7 +42,7 @@ def login():
     if username and password:
         target_user = User.get_or_none(User.username == username)
 
-        if check_password_hash(target_user.password, password):
+        if target_user and check_password_hash(target_user.password, password):
             access_token = create_access_token(identity=username)
             refresh_token = create_refresh_token(identity=username)
             return_data = {
