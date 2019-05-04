@@ -31,3 +31,17 @@ def new():
         )
 
         return jsonify( created_map_point.as_dict() )
+
+@map_points_api_blueprint.route('/delete', methods=['POST'])
+@jwt_required
+def delete():
+    requesting_user = User.get_or_none(User.username == get_jwt_identity())
+
+    if requesting_user and 'map_point_id' in request.form:
+        id_to_delete = request.form['map_point_id']
+        MapPoint.delete().where(MapPoint.id == id_to_delete).execute()
+        return jsonify({'result': True})
+
+    else:
+        return jsonify({'result': False})
+
