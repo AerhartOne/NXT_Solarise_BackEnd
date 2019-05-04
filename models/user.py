@@ -25,5 +25,12 @@ class User(BaseModel):
         else:
             return False
 
-    
-
+    def as_dict(self):
+        output_dict = {
+            'username': self.username,
+            'email': self.email,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'password': self.password
+        }
+        return output_dict
