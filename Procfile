@@ -1,1 +1,1 @@
-web: python migrate.py; gunicorn start:app --preload
+web: pip install -r requirements.txt; python migrate.py; gunicorn start:app --preload
