@@ -9,3 +9,13 @@ class MapPoint(BaseModel):
     latitude = pw.DecimalField()
     longitude = pw.DecimalField()
     date = pw.DateField()
+
+    def as_dict(self):
+        output_dict = {
+            'parent_user': self.parent_user,
+            'point_name': self.point_name,
+            'latitude': self.latitude,
+            'longitude': self.longitude,
+            'date': self.date
+        }
+        return output_dict

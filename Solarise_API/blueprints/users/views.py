@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from flask.json import jsonify
 from models.user import User
+from models.map_point import MapPoint
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, create_refresh_token
 
@@ -55,3 +56,7 @@ def login():
     else:
         return jsonify( {'msg': f'Invalid username or password.'}), 500
 
+@users_api_blueprint.route('/<id>/map_points', methods=['GET'])
+def saved_points(id):
+    selectedPoints = MapPoint.select().where(MapPoint.parent_user.id == id)
+    return jsonify(selectedPoints)
