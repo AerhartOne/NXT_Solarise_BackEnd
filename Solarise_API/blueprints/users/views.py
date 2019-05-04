@@ -57,6 +57,15 @@ def login():
     else:
         return jsonify( {'msg': f'Invalid username or password.'}), 500
 
+@users_api_blueprint.route('/self', methods=['GET'])
+@jwt_required
+def own_data():
+    selected_user = User.get_or_none(User.username == get_jwt_identity())
+    if selected_user:
+        return jsonify( selected_user.as_dict() ), 200
+    else:
+        return jsonify( {'msg': 'Could not find user.'} ), 404
+
 @users_api_blueprint.route('/self/map_points', methods=['GET'])
 @jwt_required
 def saved_points():
@@ -67,3 +76,22 @@ def saved_points():
         output = [map_point.as_dict() for map_point in selectedPoints]
     
     return jsonify( output )
+
+@users_api_blueprint.route('/self/edit', methods=['POST'])
+@jwt_required
+def edit():
+    selected_user = User.get_or_none(User.username == get_jwt_identity())
+    data = request.form
+
+    if selected_user:
+        User.update(
+            email=data['email'],
+            first_name=data['first_name'],
+            last_name=data['last_name']
+        ).where(User.id == selected_user.id).execute()
+        if data['password'] != '':
+            User.update( password = generate_password_hash(data['password'])
+            ).where(User.id == selected_user.id).execute()
+        return jsonify( selected_user.as_dict() )
+    else:
+        return jsonify( {'msg': 'Could not find user.'} ), 404
