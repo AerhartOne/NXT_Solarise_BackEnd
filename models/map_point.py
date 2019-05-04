@@ -14,8 +14,8 @@ class MapPoint(BaseModel):
         output_dict = {
             'parent_user': self.parent_user.id,
             'point_name': self.point_name,
-            'latitude': self.latitude,
-            'longitude': self.longitude,
+            'latitude': float(self.latitude),
+            'longitude': float(self.longitude),
             'date': self.date
         }
         return output_dict

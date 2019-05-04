@@ -15,7 +15,7 @@ def index():
 @map_points_api_blueprint.route('/new', methods=['POST'])
 @jwt_required
 def new():
-    parent_user = User.get(User.username == get_jwt_identity())
+    parent_user = User.get_or_none(User.username == get_jwt_identity())
     point_name = request.form['point_name']
     latitude = request.form['latitude']
     longitude = request.form['longitude']
