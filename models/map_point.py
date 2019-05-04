@@ -12,7 +12,7 @@ class MapPoint(BaseModel):
 
     def as_dict(self):
         output_dict = {
-            'parent_user': self.parent_user,
+            'parent_user': self.parent_user.id,
             'point_name': self.point_name,
             'latitude': self.latitude,
             'longitude': self.longitude,

@@ -47,7 +47,8 @@ def login():
             refresh_token = create_refresh_token(identity=username)
             return_data = {
                 'access_token': access_token,
-                'refresh_token': refresh_token
+                'refresh_token': refresh_token,
+                'userdata': target_user.as_dict()
             }
             return jsonify(return_data), 200
         else:
